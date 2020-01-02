@@ -66,14 +66,6 @@ $(document).ready(function () {
         url: "http://localhost:3000/api/getItems",
         data: { "token": token, "location": 'fridge' }
     }).done(function (data) {
-        //console.log(data);
-        //console.log(typeof(data));
-        //console.log(data[0]) //data[0] is the stuff we want
-        /*Object.entries(data).forEach(
-            //([key, value]) => console.log(key, value)
-            //([key, value]) => console.log(value("expDate"))
-            JSON.parse*/
-        //);
         let itemArray = Object.entries(data);
         console.log(itemArray);
         // //sortBy(arr, (s) => -new Date(s));
@@ -84,16 +76,9 @@ $(document).ready(function () {
 
         /*For every item in the fridge, add a table row with buttons */
         for (let i = 0; i < itemArray.length; i++) {
-            //let currentObject = Object.entries(data[i]);
             let currentObject = itemArray[i][1];
             console.log(currentObject);
             //currentObject is a key/value pair.
-            //console.log(currentObject[0]);
-            //console.log(currentObject[1]);
-            //console.log(currentObject[2]);
-            // let var1 = currentObject[0][1]; //this is just the id
-            // let var2 = currentObject[1][1];
-            // let var3 = currentObject[2][1];
 
             let var1 = currentObject.id; //this is just the id
             let var2 = currentObject.name;
@@ -117,16 +102,11 @@ $(document).ready(function () {
             let correctMonth2 = date2.getMonth() + 1
             let dateString2 = correctMonth2 + "/" + date2.getDate() + "/" + date2.getFullYear();
 
-            //let var5 = currentObject[4][1];
             let var5 = currentObject.quantity;
 
-            //let today = new Date();
-            var usaTime = new Date().toLocaleString("en-US", { timeZone: "America/New_York" });
+            let usaTime = new Date().toLocaleString("en-US", { timeZone: "America/New_York" });
             usaTime = new Date(usaTime);
-            //console.log('USA time: '+usaTime.toLocaleString())
-            // let dd = String(today.getDate()).padStart(2, '0');
-            // let mm = String(today.getMonth() + 1).padStart(2, '0'); //January is 0!
-            // let yyyy = today.getFullYear();
+
             let dd = usaTime.getDate();
             let mm = usaTime.getMonth() + 1;
             let yyyy = usaTime.getFullYear();
@@ -143,12 +123,10 @@ $(document).ready(function () {
                     "<div class='form-check'> <input type='checkbox' class='form-check-input' id='exampleCheck1'>" +
                     "<label class='form-check-label' for='exampleCheck1'>Use in recipes</label> </div></td>" +
                     "</tr>");
-                    // $("#fridgeTableBody").append("<td id='okCell'>" + "OK" + "</td>");
                 }
                 else if (yyyy - date1.getFullYear() == 0 && mm - (date1.getMonth() + 1) < 0) {
                     //ok - expires later month
                     console.log("expires in a later month");
-                    //$("#fridgeTableBody").append("<td id='okCell'>" + "OK" + "</td>");
                     $("#fridgeTableBody").append("<tr id=" + var1 + "class='item' >" + "<td class='item'>" + var2 + "</td><td class='item'>" + dateString1 + "</td><td class='item'>" + dateString2 + "</td><td class='item'>" + var5 + "</td><td id='okCell' class='item'>" + "OK" + "</td>" +
                         "<td class='item'><button type='button' class='prepareData btn btn-primary' data-toggle='modal' data-target='#Editor'>" +
                         "Edit" + "</button>" + " <button type='button' class='btn btn-danger itemDelete' >&times; </button>" +
@@ -158,8 +136,7 @@ $(document).ready(function () {
                 }
                 else if (yyyy - date1.getFullYear() == 0 && mm - (date1.getMonth() + 1) == 0 && dd - date1.getDate() < -2) {
                     //ok - expires later this month
-                    console.log("expires later this month")
-                    //$("#fridgeTableBody").append("<td id='okCell'>" + "OK" + "</td>");
+                    console.log("expires later this month");
                     $("#fridgeTableBody").append("<tr id=" + var1 + "class='item' >" + "<td class='item'>" + var2 + "</td><td class='item'>" + dateString1 + "</td><td class='item'>" + dateString2 + "</td><td class='item'>" + var5 + "</td><td id='okCell' class='item'>" + "OK" + "</td>" +
                         "<td class='item'><button type='button' class='prepareData btn btn-primary' data-toggle='modal' data-target='#Editor'>" +
                         "Edit" + "</button>" + " <button type='button' class='btn btn-danger itemDelete' >&times; </button>" +
@@ -176,23 +153,12 @@ $(document).ready(function () {
                     "<div class='form-check'> <input type='checkbox' class='form-check-input' id='exampleCheck1'>" +
                     "<label class='form-check-label' for='exampleCheck1'>Use in recipes</label> </div></td>" +
                     "</tr>");
-                    // $("#fridgeTableBody").append("<td id='almostExp'>EXPIRES SOON!</td>");
-                    // $("#fridgeTableBody").append("<div class='container'>" +
-                    //     "<div class='row'>" +
-                    //         "<div class='col'>" +
-                    //             "<div class='alert alert-primary alert-dismissable fade show' role='alert'>" +
-                    //                 "<button type='button' class='close' data-dismiss='alert'><span aria-hidden='true'>&times;</span></button>" +
-                    //                 "<h2 class='alert-heading'>Expires Soon!</h2> " +
-                    //             "</div>" +
-                    //         "</div>" +
-                    //     "</div>" +
-                    // "</div>" );
+
                 }
                 else {
                     //expired
                     console.log(date1);
                     console.log("expiration date passed already.");
-                    //$("#fridgeTableBody").append("<td id='expCell'>" + "EXPIRED" + "</td>");
                     $("#fridgeTableBody").append("<tr id=" + var1 + "class='item'>" + "<td class='item'>" + var2 + "</td><td class='item'>" + dateString1 +
                         "</td><td class='item'>" + dateString2 + "</td><td class='item'>" + var5 + "</td><td id='expCell' class='item'>" + "EXPIRED" + "</td>" +
                         "<td class='item'><button type='button' class='prepareData btn btn-primary' data-toggle='modal' data-target='#Editor'>" +
@@ -203,7 +169,6 @@ $(document).ready(function () {
                 }
             }
             else {
-                //$("#fridgeTableBody").append("<td id='almostExp'>" + "CAREFUL" + "</td>");
                 $("#fridgeTableBody").append("<tr id=" + var1 + "class='item'>" + "<td class='item'>" + var2 + "</td><td class='item'>" + dateString1 +
                     "</td><td class='item'>" + dateString2 + "</td><td class='item'>" + var5 + "</td><td id='almostExp' class='item'>" + "CAREFUL" + "</td>" +
                     "<td class='item'><button type='button' class='prepareData btn btn-primary' data-toggle='modal' data-target='#Editor'>" +
@@ -307,7 +272,7 @@ $("#itemConfirm").click(function () {
 /*Get recipes based on checked items 
 
 ********************************************
-If the graders would like to test this, the API is Spoonacular, and
+The API is Spoonacular, and
 they have free accounts with limited API points per day - you can
 get an API key and save it as an evironment variable on your machine
 as SPOONACULAR_API_KEY
@@ -458,7 +423,7 @@ $(document).on("click", ".addRecipe", function (event) {
     let url = tds[0].innerHTML;
     console.log(url);
 
-    // POST a request with the JSON-encoded song to the Server API
+    // POST a request with the JSON-encoded item to the Server API
     $.ajax({
         type: "PUT",
         url: "http://localhost:3000/api/addRecipe",
